@@ -1,14 +1,21 @@
 const express = require('express');
-const app = express();
+const Post = require('./models/Post');
+const mongoose = require('mongoose');
 const ejs = require('ejs');
+const app = express();
 
-//Template engine
+mongoose.connect('mongodb://localhost/cleanblog-test-db', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+//*Template engine
 app.set('view engine', 'ejs');
 
-//Middlewares
+//*Middlewares
 app.use(express.static('public'));
 
-//Routes
+//*Routes
 app.get('/', (req, res) => {
   res.render('index');
 });
@@ -17,6 +24,10 @@ app.get('/about', (req, res) => {
 });
 app.get('/add_post', (req, res) => {
   res.render('add_post');
+});
+
+app.post('/post', (req, res) => {
+  console.log(req.body);
 });
 
 const port = 5000;
