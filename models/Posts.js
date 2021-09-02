@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 //Create Schema
-const PostSchema = new Schema({
-  name: String,
-  message: String,
+const PhotoSchema = new Schema({
+  title: String,
+  detail: String,
   dateCreated: {
     type: Date,
     default: Date.now,
@@ -12,6 +12,6 @@ const PostSchema = new Schema({
 });
 
 // created model and write required document
-const Post = mongoose.model('Post', PostSchema);
+const Posts = mongoose.model('Posts', PhotoSchema);
 
-module.exports = Post;
+module.exports = Posts;
