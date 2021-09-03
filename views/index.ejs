@@ -26,13 +26,13 @@
 
           <% for(let i =0 ;i<posts.length;i++){ %>
           <div class="post-preview">
-            <a href="post.html">
+            <a href="/post/<%=posts[i]._id%>">
               <h2 class="post-title"><%= posts[i].title %></h2>
               <h3 class="post-subtitle"><%= posts[i].detail %></h3>
             </a>
             <p class="post-meta">
-              Posted by
-              <a href="#">Start Bootstrap</a>
+              Posted date
+              <%= posts[i].dateCreated%>
             </p>
           </div>
           <% } %>
