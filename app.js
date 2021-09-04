@@ -1,6 +1,7 @@
 const express = require('express');
 const Posts = require('./models/Posts');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 const ejs = require('ejs');
 const Schema = mongoose.Schema;
 const app = express();
@@ -18,6 +19,11 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(
+  methodOverride('_method', {
+    methods: ['POST', 'GET'],
+  })
+);
 
 //*Routes
 app.get('/', async (req, res) => {
@@ -42,6 +48,26 @@ app.get('/add_post', (req, res) => {
 
 app.post('/posts', async (req, res) => {
   await Posts.create(req.body);
+  res.redirect('/');
+});
+
+app.get('/posts/edit/:id', async (req, res) => {
+  const post = await Posts.findOne({ _id: req.params.id });
+  res.render('edit_post', {
+    post,
+  });
+});
+
+app.put('/posts/:id', async (req, res) => {
+  const post = await Posts.findOne({ _id: req.params.id });
+  post.title = req.body.title;
+  post.detail = req.body.detail;
+  post.save();
+  res.redirect(`/post/${req.params.id}`);
+});
+
+app.delete('/posts/:id', async (req, res) => {
+  await Posts.findByIdAndRemove(req.params.id);
   res.redirect('/');
 });
 
